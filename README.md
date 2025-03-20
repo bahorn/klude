@@ -1,5 +1,7 @@
 # klude
 
+**There is a updated rewrite in my [klude2 repo](https://github.com/bahorn/klude2), which fixes the bugs this version has.**
+
 A prototype kernel SHELF loader.
 Implemented as one module that will load another.
 
